@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 
-import Navbar from "./components/navabar/Navbar";
+import Navbar from "./components/navbar/Navbar";
 import "./globals.css";
 
 export const metadata: Metadata = {
