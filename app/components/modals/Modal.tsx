@@ -88,7 +88,6 @@ const Modal: React.FC<ModalProps> = ({
               <div className="relative p-6 flex-auto">{body}</div>
 
               {/* footer  */}
-
               <div className="flex flex-col gap-2 p-6">
                 <div className="flex flex-row items-center gap-4 w-full">
                   {secondaryAction && secondaryActionLabel && (
@@ -105,6 +104,7 @@ const Modal: React.FC<ModalProps> = ({
                     disabled={disabled}
                   />
                 </div>
+                {footer}
               </div>
             </div>
           </div>
