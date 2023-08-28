@@ -8,6 +8,7 @@ import { FcGoogle } from "react-icons/fc";
 
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 
+import useLoginModal from "@/app/hooks/useLoginModal";
 import { AiFillGithub } from "react-icons/ai";
 import Button from "../Button";
 import Heading from "../Heading";
@@ -16,6 +17,8 @@ import Modal from "./Modal";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
+
   const {
     register,
     handleSubmit,
@@ -49,6 +52,11 @@ const RegisterModal = () => {
       });
   };
 
+  // change the modal
+  const changeModal = () => {
+    registerModal.onClose();
+    loginModal.onOpen();
+  };
   // body content
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -102,7 +110,7 @@ const RegisterModal = () => {
         <div className="flex justify-center items-center gap-2">
           <div>Already have an account?</div>
           <div
-            onClick={registerModal.onClose}
+            onClick={changeModal}
             className="font-semibold text-rose-500 cursor-pointer hover:underline"
           >
             Log in
