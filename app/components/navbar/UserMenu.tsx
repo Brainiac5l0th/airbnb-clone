@@ -61,7 +61,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
         >
           <AiOutlineMenu />
           <div className="hidden md:block">
-            <Avatar />
+            <Avatar imgSrc={user?.image as string} />
           </div>
         </div>
       </div>
