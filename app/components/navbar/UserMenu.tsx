@@ -1,15 +1,21 @@
 "use client";
 
+import { signOut } from "next-auth/react";
 import { useCallback, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 
+import { User } from "@prisma/client";
 import Avatar from "../Avatar";
 import MenuItem from "./MenuItem";
 
-const UserMenu = () => {
+interface UserMenuProps {
+  user?: User | null;
+}
+
+const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
 
@@ -21,6 +27,25 @@ const UserMenu = () => {
     setIsOpen((prev) => !prev);
   }, []);
 
+  // content to render
+  const guestContent = (
+    <>
+      <MenuItem onClick={loginModal.onOpen} label="Login" />
+      <MenuItem onClick={registerModal.onOpen} label="Sign up" />
+    </>
+  );
+
+  const loggedInUserContent = (
+    <>
+      <MenuItem onClick={() => {}} label="My Trips" />
+      <MenuItem onClick={() => {}} label="My Favorites" />
+      <MenuItem onClick={() => {}} label="My Reservations" />
+      <MenuItem onClick={() => {}} label="My Properties" />
+      <MenuItem onClick={() => {}} label="Airbnb My Home" />
+      <hr />
+      <MenuItem onClick={() => signOut()} label="Logout" />
+    </>
+  );
   return (
     <div className="relative">
       <div className="flex items-center gap-3">
@@ -43,8 +68,7 @@ const UserMenu = () => {
       {isOpen && (
         <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
           <div className="flex flex-col cursor-pointer">
-            <MenuItem onClick={loginModal.onOpen} label="Login" />
-            <MenuItem onClick={registerModal.onOpen} label="Sign up" />
+            {user ? loggedInUserContent : guestContent}
           </div>
         </div>
       )}
