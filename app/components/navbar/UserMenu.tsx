@@ -7,12 +7,12 @@ import { AiOutlineMenu } from "react-icons/ai";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 
-import { User } from "@prisma/client";
+import { SafeUser } from "@/app/types";
 import Avatar from "../Avatar";
 import MenuItem from "./MenuItem";
 
 interface UserMenuProps {
-  user?: User | null;
+  user?: SafeUser | null;
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
