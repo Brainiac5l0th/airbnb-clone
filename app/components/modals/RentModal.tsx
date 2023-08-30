@@ -3,9 +3,7 @@ import { useMemo, useState } from "react";
 
 import useRentModal from "@/app/hooks/useRendModal";
 
-import { categories } from "@/app/utils/categories";
-import Heading from "../Heading";
-import CategoryInput from "../inputs/CategoryInput";
+import CategoryList from "../rent/CategoryList";
 import Modal from "./Modal";
 
 enum STEPS {
@@ -16,15 +14,21 @@ enum STEPS {
   DESCRIPTION = 4,
   PRICE = 5,
 }
+
 const RentModal = () => {
+  // hooks
   const rentModal = useRentModal();
 
+  // states
   const [step, setStep] = useState(STEPS.CATEGORY);
 
+  // handlers
+  // onBack helps to get back on stepper
   const onBack = () => {
     setStep((value) => value - 1);
   };
 
+  // on Next helps to go to next on stepper
   const onNext = () => {
     setStep((value) => value + 1);
   };
@@ -49,28 +53,9 @@ const RentModal = () => {
   let bodyContent;
 
   if (step === STEPS.CATEGORY) {
-    bodyContent = (
-      <div className="flex flex-col gap-8">
-        <Heading
-          title="Which of these best describes your place?"
-          subTitle="Pick a Category"
-        />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto scrollbar scrollbar-w-[5px] scrollbar-rounded-lg scrollbar-thumb-rose-400 scrollbar-track-neutral-500">
-          {categories.map((item) => (
-            <div key={item.label} className="col-span-1">
-              <CategoryInput
-                onClick={() => {}}
-                selected={false}
-                label={item.label}
-                icon={item.icon}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+    bodyContent = <CategoryList />;
   }
-  
+
   return (
     <Modal
       title="Airbnb! Your home"
