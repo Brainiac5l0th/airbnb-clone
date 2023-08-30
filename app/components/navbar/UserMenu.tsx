@@ -29,6 +29,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
     setIsOpen((prev) => !prev);
   }, []);
 
+  const onRent = useCallback(() => {
+    if (user) return loginModal.onOpen();
+
+    rentModal.onOpen();
+  }, [loginModal, user, rentModal]);
   // content to render
   const guestContent = (
     <>
@@ -43,7 +48,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
       <MenuItem onClick={() => {}} label="My Favorites" />
       <MenuItem onClick={() => {}} label="My Reservations" />
       <MenuItem onClick={() => {}} label="My Properties" />
-      <MenuItem onClick={rentModal.onOpen} label="Airbnb My Home" />
+      <MenuItem onClick={onRent} label="Airbnb My Home" />
       <hr />
       <MenuItem onClick={() => signOut()} label="Logout" />
     </>
@@ -52,7 +57,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
     <div className="relative">
       <div className="flex items-center gap-3">
         <div
-          onClick={rentModal.onOpen}
+          onClick={onRent}
           className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
         >
           Airbnb Your home
