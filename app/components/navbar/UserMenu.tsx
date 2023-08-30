@@ -29,11 +29,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
     setIsOpen((prev) => !prev);
   }, []);
 
+  // handler to open rent modal
   const onRent = useCallback(() => {
-    if (user) return loginModal.onOpen();
+    if (!user) return loginModal.onOpen();
 
     rentModal.onOpen();
   }, [loginModal, user, rentModal]);
+
   // content to render
   const guestContent = (
     <>
