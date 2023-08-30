@@ -7,6 +7,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 
+import useRentModal from "@/app/hooks/useRendModal";
 import { SafeUser } from "@/app/types";
 import Avatar from "../Avatar";
 import MenuItem from "./MenuItem";
@@ -16,6 +17,7 @@ interface UserMenuProps {
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
+  const rentModal = useRentModal();
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
 
@@ -41,7 +43,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
       <MenuItem onClick={() => {}} label="My Favorites" />
       <MenuItem onClick={() => {}} label="My Reservations" />
       <MenuItem onClick={() => {}} label="My Properties" />
-      <MenuItem onClick={() => {}} label="Airbnb My Home" />
+      <MenuItem onClick={rentModal.onOpen} label="Airbnb My Home" />
       <hr />
       <MenuItem onClick={() => signOut()} label="Logout" />
     </>
@@ -50,7 +52,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
     <div className="relative">
       <div className="flex items-center gap-3">
         <div
-          onClick={() => {}}
+          onClick={rentModal.onOpen}
           className="hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
         >
           Airbnb Your home
