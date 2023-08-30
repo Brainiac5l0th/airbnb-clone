@@ -4,7 +4,15 @@ import { categories } from "@/app/utils/categories";
 import Heading from "../Heading";
 import CategoryInput from "../inputs/CategoryInput";
 
-const CategoryList = () => {
+interface CategoryListProps {
+  category: string;
+  onClick: (id: string, value: any) => void;
+}
+
+const CategoryList: React.FC<CategoryListProps> = ({
+  category,
+  onClick: handleClick,
+}) => {
   return (
     <div className="flex flex-col gap-8">
       <Heading
@@ -15,8 +23,8 @@ const CategoryList = () => {
         {categories.map((item) => (
           <div key={item.label} className="col-span-1">
             <CategoryInput
-              onClick={() => {}}
-              selected={false}
+              onClick={(category) => handleClick("category", category)}
+              selected={category === item.label}
               label={item.label}
               icon={item.icon}
             />

@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 
 import useRentModal from "@/app/hooks/useRendModal";
 
+import { FieldValues, useForm } from "react-hook-form";
 import CategoryList from "../rent/CategoryList";
 import Modal from "./Modal";
 
@@ -18,8 +19,30 @@ enum STEPS {
 const RentModal = () => {
   // hooks
   const rentModal = useRentModal();
+  // form controll using hooks
+  const {
+    register,
+    watch,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<FieldValues>({
+    defaultValues: {
+      category: "",
+      location: null,
+      roomCount: 1,
+      guestCount: 1,
+      bathroomCount: 1,
+      imageSrc: "",
+      title: "",
+      description: "",
+      price: 1,
+    },
+  });
 
   // states
+  // page count: for stepper
   const [step, setStep] = useState(STEPS.CATEGORY);
 
   // handlers
@@ -47,21 +70,31 @@ const RentModal = () => {
     return "Back";
   }, [step]);
 
+  // For category list
+  // telling useform-hook to watch changes in category
+  const category = watch("category");
+
+  //
+  const setCustomValue = (id: string, value: any) => {
+    setValue(id, value, {
+      shouldValidate: true,
+      shouldTouch: true,
+      shouldDirty: true,
+    });
+  };
   // decide what to render
   // main body content
   // let : beacause content will change
   let bodyContent;
 
   if (step === STEPS.CATEGORY) {
-    bodyContent = <CategoryList />;
+    bodyContent = <CategoryList category={category} onClick={setCustomValue} />;
   }
 
   return (
     <Modal
       title="Airbnb! Your home"
-      onSubmit={() => {
-        console.log("submit");
-      }}
+      onSubmit={onNext}
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
