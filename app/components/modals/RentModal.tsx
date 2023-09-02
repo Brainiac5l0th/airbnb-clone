@@ -7,6 +7,7 @@ import useRentModal from "@/app/hooks/useRendModal";
 import CategoryList from "../rent/CategoryList";
 import Information from "../rent/Information";
 import Location from "../rent/Location";
+import PlaceImage from "../rent/PlaceImage";
 import Modal from "./Modal";
 
 enum STEPS {
@@ -79,6 +80,7 @@ const RentModal = () => {
   const guestCount = watch("guestCount");
   const roomCount = watch("roomCount");
   const bathroomCount = watch("bathroomCount");
+  const imageSrc = watch("imageSrc");
 
   //
   const setCustomValue = (id: string, value: any) => {
@@ -111,6 +113,10 @@ const RentModal = () => {
         setter={setCustomValue}
       />
     );
+  }
+
+  if (step === STEPS.IMAGES) {
+    bodyContent = <PlaceImage imageSrc={imageSrc} setter={setCustomValue} />;
   }
 
   return (
