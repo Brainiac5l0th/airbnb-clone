@@ -1,14 +1,14 @@
 "use client";
+import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 
 import useRentModal from "@/app/hooks/useRendModal";
 
-import dynamic from "next/dynamic";
-import { FieldValues, useForm } from "react-hook-form";
 import Heading from "../Heading";
-import Counter from "../inputs/Counter";
 import CountrySelect from "../inputs/CountrySelect";
 import CategoryList from "../rent/CategoryList";
+import Information from "../rent/Information";
 import Modal from "./Modal";
 
 enum STEPS {
@@ -124,33 +124,12 @@ const RentModal = () => {
   //
   if (step === STEPS.INFO) {
     bodyContent = (
-      <div className="flex flex-col gap-8">
-        <Heading
-          title="Share some basics about your place"
-          subTitle="What amenities do you have?"
-        />
-
-        <Counter
-          title="Guests"
-          subTitle="How many guests do you allow?"
-          value={guestCount}
-          onChange={(value) => setCustomValue("guestCount", value)}
-        />
-        <hr />
-        <Counter
-          title="Rooms"
-          subTitle="How many rooms do you have?"
-          value={roomCount}
-          onChange={(value) => setCustomValue("roomCount", value)}
-        />
-        <hr />
-        <Counter
-          title="Bathrooms"
-          subTitle="How many bathrooms do you have?"
-          value={bathroomCount}
-          onChange={(value) => setCustomValue("bathroomCount", value)}
-        />
-      </div>
+      <Information
+        roomCount={roomCount}
+        guestCount={guestCount}
+        bathroomCount={bathroomCount}
+        setter={setCustomValue}
+      />
     );
   }
 
