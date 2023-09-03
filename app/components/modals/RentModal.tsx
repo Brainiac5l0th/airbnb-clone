@@ -7,6 +7,7 @@ import useRentModal from "@/app/hooks/useRendModal";
 import CategoryList from "../rent/CategoryList";
 import Information from "../rent/Information";
 import Location from "../rent/Location";
+import PlaceDescription from "../rent/PlaceDescription";
 import PlaceImage from "../rent/PlaceImage";
 import Modal from "./Modal";
 
@@ -47,6 +48,7 @@ const RentModal = () => {
   // states
   // page count: for stepper
   const [step, setStep] = useState(STEPS.CATEGORY);
+  const [isLoading, setIsLoading] = useState(false);
 
   // handlers
   // onBack helps to get back on stepper
@@ -119,6 +121,15 @@ const RentModal = () => {
     bodyContent = <PlaceImage imageSrc={imageSrc} setter={setCustomValue} />;
   }
 
+  if (step === STEPS.DESCRIPTION) {
+    bodyContent = (
+      <PlaceDescription
+        register={register}
+        errors={errors}
+        disabled={isLoading}
+      />
+    );
+  }
   return (
     <Modal
       title="Airbnb! Your home"
