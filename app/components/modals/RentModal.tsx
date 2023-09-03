@@ -1,15 +1,20 @@
 "use client";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
 import useRentModal from "@/app/hooks/useRendModal";
 
-import CategoryList from "../rent/CategoryList";
-import Information from "../rent/Information";
-import Location from "../rent/Location";
-import PlaceDescription from "../rent/PlaceDescription";
-import PlaceImage from "../rent/PlaceImage";
-import PlacePrice from "../rent/PlacePrice";
+import {
+  CategoryList,
+  Information,
+  Location,
+  PlaceDescription,
+  PlaceImage,
+  PlacePrice,
+} from "@/app/components/rent";
 import Modal from "./Modal";
 
 enum STEPS {
@@ -23,7 +28,9 @@ enum STEPS {
 
 const RentModal = () => {
   // hooks
+  const router = useRouter();
   const rentModal = useRentModal();
+
   // form controll using hooks
   const {
     register,
@@ -62,6 +69,31 @@ const RentModal = () => {
     setStep((value) => value + 1);
   };
 
+  // hanlder to hanle submit
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    // if stepper is not at the last step return next call
+    if (step !== STEPS.PRICE) return onNext();
+
+    setIsLoading(true);
+
+    // post the data to the Listings database
+    axios
+      .post("/api/listings", data)
+      .then(() => {
+        toast.success("Listing created");
+        router.refresh();
+        reset();
+        setStep(STEPS.CATEGORY);
+        rentModal.onClose();
+      })
+      .catch((e) => {
+        toast.error("Something went Wrong!");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
   // action label filtering for each other page
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) return "Create";
@@ -77,7 +109,8 @@ const RentModal = () => {
   }, [step]);
 
   // For category list
-  // telling useform-hook to watch changes in category
+  // watch list
+  // check whether it's value is changing or not
   const category = watch("category");
   const location = watch("location");
   const guestCount = watch("guestCount");
@@ -85,7 +118,7 @@ const RentModal = () => {
   const bathroomCount = watch("bathroomCount");
   const imageSrc = watch("imageSrc");
 
-  //
+  // custom value setter function to set value with some feature
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
       shouldValidate: true,
@@ -93,9 +126,10 @@ const RentModal = () => {
       shouldDirty: true,
     });
   };
+
   // decide what to render
   // main body content
-  // let : beacause content will change
+  // let : because content will vary for diff step
   let bodyContent;
 
   if (step === STEPS.CATEGORY) {
@@ -140,7 +174,7 @@ const RentModal = () => {
   return (
     <Modal
       title="Airbnb! Your home"
-      onSubmit={onNext}
+      onSubmit={handleSubmit(onSubmit)}
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
