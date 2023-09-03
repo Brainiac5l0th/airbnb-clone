@@ -9,6 +9,7 @@ import Information from "../rent/Information";
 import Location from "../rent/Location";
 import PlaceDescription from "../rent/PlaceDescription";
 import PlaceImage from "../rent/PlaceImage";
+import PlacePrice from "../rent/PlacePrice";
 import Modal from "./Modal";
 
 enum STEPS {
@@ -128,6 +129,12 @@ const RentModal = () => {
         errors={errors}
         disabled={isLoading}
       />
+    );
+  }
+
+  if (step === STEPS.PRICE) {
+    bodyContent = (
+      <PlacePrice register={register} errors={errors} disabled={isLoading} />
     );
   }
   return (
