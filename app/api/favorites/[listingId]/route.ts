@@ -32,7 +32,7 @@ const handler = async (req: Request, { params }: { params: IParams }) => {
 
   // if user request for deleting like OR removing it to the favorites
   if (req.method === "DELETE") {
-    favoriteIds.filter((id) => id !== listingId);
+    favoriteIds = favoriteIds.filter((id) => id !== listingId);
   }
 
   // update the user information in the database
