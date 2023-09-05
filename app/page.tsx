@@ -1,6 +1,7 @@
-import { Listing } from "@prisma/client";
 import getCurrentUser from "./actions/getCurrentUser";
 import getListings from "./actions/getListings";
+import { SafeListing } from "./types";
+
 import Container from "./components/Container";
 import EmptyState from "./components/EmptyState";
 import ListingCard from "./components/listings/ListingCard";
@@ -21,7 +22,7 @@ const Home = async () => {
         2xl: grid-cols-6
         gap-8"
       >
-        {listings.map((el: Listing) => (
+        {listings.map((el: SafeListing) => (
           <ListingCard key={el.id} data={el} currentUser={currentUser} />
         ))}
       </div>
