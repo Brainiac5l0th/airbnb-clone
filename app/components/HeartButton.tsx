@@ -9,10 +9,12 @@ import { SafeUser } from "../types";
 interface HeartButtonProps {
   listingId: string;
   currentUser?: SafeUser | null;
+  bigger?: boolean;
 }
 const HeartButton: React.FC<HeartButtonProps> = ({
   listingId,
   currentUser,
+  bigger,
 }) => {
   // hooks
   const { hasFavorited, toggleFavorite } = useFavorite({
@@ -26,11 +28,11 @@ const HeartButton: React.FC<HeartButtonProps> = ({
       onClick={toggleFavorite}
     >
       <AiOutlineHeart
-        size={28}
+        size={bigger ? 32 : 28}
         className={"fill-white absolute -top-[2px] -right-[2px]"}
       />
       <AiFillHeart
-        size={24}
+        size={bigger ? 28 : 24}
         className={`${hasFavorited ? "fill-rose-500" : "fill-neutral-500/70"}`}
       />
     </div>
