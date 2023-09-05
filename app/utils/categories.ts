@@ -1,3 +1,4 @@
+import { IconType } from "react-icons";
 import { BsSnow } from "react-icons/bs";
 import { FaSkiing } from "react-icons/fa";
 import {
@@ -13,6 +14,12 @@ import {
 import { IoDiamond } from "react-icons/io5";
 import { MdOutlineVilla } from "react-icons/md";
 import { TbBeach, TbMountain, TbPool } from "react-icons/tb";
+
+export type CategoryType = {
+  label: string;
+  icon: IconType;
+  description: string;
+};
 
 export const categories = [
   {
