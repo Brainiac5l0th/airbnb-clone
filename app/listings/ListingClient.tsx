@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import useLoginModal from "../hooks/useLoginModal";
 
@@ -10,10 +10,11 @@ import { Reservation } from "@prisma/client";
 import { SafeListing, SafeUser } from "../types";
 import { categories } from "../utils/categories";
 
-import { eachDayOfInterval } from "date-fns";
+import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
 import { toast } from "react-hot-toast";
 import Container from "../components/Container";
 import ListingHead from "../components/listings/ListingHead";
+import ListingReservation from "../components/listings/ListingReservation";
 import Listinginfo from "../components/listings/Listinginfo";
 
 const initialDateRange = {
@@ -42,6 +43,22 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
   const [dateRange, setDateRange] = useState(initialDateRange);
+
+  useEffect(() => {
+    if (dateRange.startDate && dateRange.endDate) {
+      // count the difference of days
+      const dayDiff = differenceInCalendarDays(
+        dateRange.startDate,
+        dateRange.endDate
+      );
+
+      if (dayDiff && listing.price) {
+        setTotalPrice(dayDiff * listing.price);
+      } else {
+        setTotalPrice(listing.price);
+      }
+    }
+  }, [dateRange, listing.price]);
 
   // get disabled dates if there is any reservation on the day
   const disabledDates = useMemo(() => {
@@ -94,6 +111,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
         setIsLoading(false);
       });
   }, [currentUser, loginModal, listing?.id, dateRange, totalPrice, router]);
+
   return (
     <Container>
       <div className="max-w-screen-lg mx-auto">
@@ -107,6 +125,16 @@ const ListingClient: React.FC<ListingClientProps> = ({
           />
           <div className="grid grid-cols-1 md:grid-cols-7 md:gap-10 mt-6">
             <Listinginfo info={listing} category={category} />
+            <div className="order-first mb-10 md:order-last md:col-span-3">
+              <ListingReservation
+                price={listing.price}
+                totalPrice={totalPrice}
+                dateRange={dateRange}
+                onSubmit={onCreateReservation}
+                disabled={isLoading}
+                disabledDates={disabledDates}
+              />
+            </div>
           </div>
         </div>
       </div>
