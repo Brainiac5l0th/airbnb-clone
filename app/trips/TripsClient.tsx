@@ -1,16 +1,14 @@
 "use client";
 
+import axios from "axios";
 import { useRouter } from "next/navigation";
-
-import useLoginModal from "../hooks/useLoginModal";
+import { useCallback, useState } from "react";
+import { toast } from "react-hot-toast";
 
 import Container from "../components/Container";
 import Heading from "../components/Heading";
-
-import axios from "axios";
-import { useCallback, useState } from "react";
-import { toast } from "react-hot-toast";
 import ListingCard from "../components/listings/ListingCard";
+
 import { SafeReservation, SafeUser } from "../types";
 
 interface TripsClientProps {
@@ -23,7 +21,6 @@ const TripsClient: React.FC<TripsClientProps> = ({
   currentUser,
 }) => {
   const router = useRouter();
-  const loginModal = useLoginModal();
 
   const [deletingId, setDeletingId] = useState("");
 
@@ -54,7 +51,7 @@ const TripsClient: React.FC<TripsClientProps> = ({
         title="Your Trips"
         subTitle="Where you have been and where you're going."
       />
-      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
         {reservations?.map((reservation) => (
           <ListingCard
             key={reservation.id}
