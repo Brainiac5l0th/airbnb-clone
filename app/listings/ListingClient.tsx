@@ -9,8 +9,7 @@ import { toast } from "react-hot-toast";
 
 import useLoginModal from "../hooks/useLoginModal";
 
-import { Reservation } from "@prisma/client";
-import { SafeListing, SafeUser } from "../types";
+import { SafeListing, SafeReservation, SafeUser } from "../types";
 import { categories } from "../utils/categories";
 
 import Container from "../components/Container";
@@ -25,7 +24,7 @@ const initialDateRange = {
 };
 
 interface ListingClientProps {
-  reservations?: Reservation[];
+  reservations?: SafeReservation[];
   listing: SafeListing & {
     user: SafeUser;
   };
