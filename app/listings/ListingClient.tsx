@@ -1,8 +1,11 @@
 "use client";
 
 import axios from "axios";
+import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { Range } from "react-date-range";
+import { toast } from "react-hot-toast";
 
 import useLoginModal from "../hooks/useLoginModal";
 
@@ -10,8 +13,6 @@ import { Reservation } from "@prisma/client";
 import { SafeListing, SafeUser } from "../types";
 import { categories } from "../utils/categories";
 
-import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
-import { toast } from "react-hot-toast";
 import Container from "../components/Container";
 import ListingHead from "../components/listings/ListingHead";
 import ListingReservation from "../components/listings/ListingReservation";
@@ -42,7 +43,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   // states
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
-  const [dateRange, setDateRange] = useState(initialDateRange);
+  const [dateRange, setDateRange] = useState<Range>(initialDateRange);
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
@@ -71,9 +72,8 @@ const ListingClient: React.FC<ListingClientProps> = ({
       });
 
       dates = [...dates, ...range];
-
-      return dates;
     });
+    return dates;
   }, [reservations]);
 
   // get category object information from categories
@@ -130,6 +130,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                 price={listing.price}
                 totalPrice={totalPrice}
                 dateRange={dateRange}
+                onChangeDate={(value) => setDateRange(value)}
                 onSubmit={onCreateReservation}
                 disabled={isLoading}
                 disabledDates={disabledDates}
