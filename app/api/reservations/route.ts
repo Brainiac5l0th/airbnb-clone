@@ -1,4 +1,4 @@
-import { NextResponse as res } from "next/server";
+import { NextResponse } from "next/server";
 
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import prisma from "@/app/libs/prismadb";
@@ -9,7 +9,7 @@ const handler = async (req: Request) => {
     const currentUser = await getCurrentUser();
 
     // if there is no loggedin user, return error
-    if (!currentUser) return res.error();
+    if (!currentUser) return NextResponse.error();
 
     // parse body data from request
     const body = await req.json();
@@ -18,7 +18,8 @@ const handler = async (req: Request) => {
     const { listingId, startDate, endDate, totalPrice } = body;
 
     // if any of the field is missing, return error
-    if (!listingId || !startDate || !endDate || !totalPrice) return res.error();
+    if (!listingId || !startDate || !endDate || !totalPrice)
+      return NextResponse.error();
 
     // update listing alongside creating new reservation
     const listingReservation = await prisma.listing.update({
@@ -36,9 +37,9 @@ const handler = async (req: Request) => {
     });
 
     // if there is listing reservation created, return created/updated one
-    res.json(listingReservation);
+    return NextResponse.json(listingReservation);
   } catch (error) {
-    return res.json("Server side error");
+    return NextResponse.json("Server side error");
   }
 };
 
