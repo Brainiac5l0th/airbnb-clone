@@ -61,6 +61,7 @@ const TripsClient: React.FC<TripsClientProps> = ({
             data={reservation.listing}
             actionLabel={"Cancel trip"}
             disabled={deletingId === reservation.id}
+            currentUser={currentUser}
           />
         ))}
       </div>
