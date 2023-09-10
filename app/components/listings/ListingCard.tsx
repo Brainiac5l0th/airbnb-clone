@@ -19,6 +19,7 @@ interface ListingCardProps {
   actionLabel?: string;
   actionId?: string;
   currentUser?: SafeUser | null;
+  showHeart?: boolean;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -29,6 +30,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
   disabled,
   onAction,
   reservation,
+  showHeart = true,
 }) => {
   const router = useRouter();
   const { getByValue } = useCountries();
@@ -79,9 +81,11 @@ const ListingCard: React.FC<ListingCardProps> = ({
             src={data.imageSrc}
             className="object-cover h-full w-full group-hover:scale-110 transition"
           />
-          <div className="absolute top-3 right-3">
-            <HeartButton listingId={data.id} currentUser={currentUser} />
-          </div>
+          {showHeart && (
+            <div className="absolute top-3 right-3">
+              <HeartButton listingId={data.id} currentUser={currentUser} />
+            </div>
+          )}
         </div>
         <div className="font-semibold text-lg">
           {location?.region}, {location?.label}
