@@ -6,9 +6,8 @@ import getReservations from "../actions/getReservations";
 import EmptyState from "../components/EmptyState";
 import ReservationsClient from "./ReservationsClient";
 
-interface ReservationPageProps {}
 
-const ReservationPage: React.FC<ReservationPageProps> = async () => {
+const ReservationPage = async () => {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
