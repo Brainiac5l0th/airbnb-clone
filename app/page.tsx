@@ -15,7 +15,13 @@ const Home = async ({ searchParams }: HomeProps) => {
   // if there is nothing in the listings
   // show empty state
   if (listings.length === 0) {
-    return <EmptyState showReset />;
+    return (
+      <Container>
+        <div className="pt-24">
+          <EmptyState showReset />
+        </div>
+      </Container>
+    );
   }
   return (
     <Container>

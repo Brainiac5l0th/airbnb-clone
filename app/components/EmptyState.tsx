@@ -19,11 +19,13 @@ const EmptyState: React.FC<EmptyStateProps> = ({
     <div className="h-[60h] flex flex-col items-center gap-2 justify-center">
       <Heading title={title} subTitle={subtitle} center />
       {showReset && (
-        <Button
-          outline
-          label={"Remove all filters"}
-          onClick={() => router.push("/")}
-        />
+        <div className="w-[250px]">
+          <Button
+            outline
+            label={"Remove all filters"}
+            onClick={() => router.push("/")}
+          />
+        </div>
       )}
     </div>
   );
