@@ -1,7 +1,9 @@
-### Tech stack:
+### Tech used:
  - Nextjs [App Directory]
  - Prisma
  - MongoDB
+ - cloudinary
+ - leaflet
 
 ### Scout:
 ```
