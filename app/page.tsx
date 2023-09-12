@@ -7,7 +7,7 @@ import EmptyState from "./components/EmptyState";
 import ListingCard from "./components/listings/ListingCard";
 
 interface HomeProps {
-  searchParams: IPropertiesParams;
+  searchParams?: IPropertiesParams;
 }
 const Home = async ({ searchParams }: HomeProps) => {
   const listings = await getListings(searchParams);
