@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "vercel-build": "yarn run prepare && next build",
     "dev": "next dev",
     "production:build": "yarn prisma generate && next build",
     "start": "next start",
