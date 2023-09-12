@@ -113,6 +113,18 @@ const SearchModal = () => {
 
     // set stepper on first step
     setStep(STEPS.LOCATION);
+
+    // reset form
+    setLocation(undefined);
+    setGuestCount(1);
+    setRoomCount(1);
+    setBathroomCount(1);
+    setDateRange({
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    });
+    
     // close the modal
     searchModal.onClose();
 
